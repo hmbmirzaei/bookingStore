@@ -1,28 +1,23 @@
 const jwt = require('jsonwebtoken');
 const md5 = require('md5');
 const { v4 } = require('uuid');
-const { salt, secret_key, token_expire } = process.env;
-const { err, database } = require('./utility');
-database.co
+const mongoose = require('mongoose');
+const { salt, secret_key, token_expire, db_url } = process.env;
+const { err } = require('./utility');
 const redis = require('./redis');
-// console.log({ salt, secret_key, d: md5('tester') })
-const users = [{
-	id: 1,
-	username: 'test',
-	password: `f5d1278e8109edd94e1e4197e04873b912312312@23312312dsfsdfSDFSDF33^wretwer`,//hashed
-	fname: 'hossein',
-	lname: 'mirzaei'
-}];
+const { User } = require('../model');
+
 const funcs = {
 	login: async ({ username, password }) => {
-		const person = await users.find(user =>
-			user.username == username
-			&&
-			user.password == `${md5(password)}${salt}`);
-		if (!person)
+		await mongoose.connect(db_url);
+		const person = await User.find({
+			username,
+			password: `${md5(password)}${salt}`
+		});
+		if (!person.length)
 			err('wrong credential', 401);
-
-		const { id, fname, lname } = person;
+		
+		const { id, fname, lname } = person[0];
 		//check previous login
 		let old_token = await redis.r(`${id}`);
 		if (old_token) {
@@ -52,7 +47,6 @@ const funcs = {
 			if (!user)
 				rej('wrong credential');
 			user = JSON.parse(user);
-			console.log(user)
 			res(user.id)
 		});
 	})

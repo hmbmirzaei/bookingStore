@@ -30,7 +30,5 @@ app.use('/*', not_found);
 const port = process.env.port || 8000;
 app.listen(port, _ => {
     console.log(`listening on port: ${port}`);
-    console.log(`http://localhost:${port}/postman`);
+    console.log(`http://${process.env.postman_base_url || 'localhost'}:${port}/postman`);
 });
-
-

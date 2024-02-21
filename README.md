@@ -51,7 +51,7 @@ http://serever_url/postman
 2. [ ] Make regular commits with meaningful messages.
 3. [ ] Organize codebase with clear folder structures and documentation
 
-## Project foder structure:
+## Project folder structure:
 
 ```
 project
@@ -59,5 +59,6 @@ project
 └─── controller
 └─── model
 └─── route_controller
+└─── router
 └─── router
 ```

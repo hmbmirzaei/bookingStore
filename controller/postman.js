@@ -1,19 +1,19 @@
-const { port } = process.env
+const { port, postman_base_url } = process.env
 const my_header = [
 	{
-		key: "access_token",
-		value: "{{access_roken}}"
+		key: "token",
+		value: "{{token}}"
 	}
 ];
 
-const baseurl = `localhost:${port}`;
+const baseurl = `${postman_base_url}:${port}`;
 const protocol = 'http';
 const apis_collection = require('../apis');
 module.exports = () => {
 	let items = [];
 	for (const key in apis_collection) {
 		const api_packs = apis_collection[key];
-		const api_items= [];
+		const api_items = [];
 		api_packs.forEach(entry => {
 			const { name, method, path, body, params, description, mode, query, formdata, event, header } = entry;
 			const p = [key];
@@ -29,8 +29,7 @@ module.exports = () => {
 						listen: "test",
 						script: {
 							exec: [
-								"pm.collectionVariables.set('access_roken', pm.response.json().access_token);",
-								"pm.collectionVariables.set('refresh_token', pm.response.json().refresh_token);"
+								"pm.collectionVariables.set('token', pm.response.json().token);",
 							],
 							type: "text/javascript"
 						}
@@ -93,22 +92,17 @@ module.exports = () => {
 	}
 	return {
 		info: {
-			name: 'HMB',
-			description: `HMB api collection`,
+			name: 'book store',
+			description: `book store api collection`,
 			schema: "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		},
 		item: items,
 		variable: [
 			{
-				key: "access_roken",
+				key: "token",
 				value: "",
 				type: "string"
 			},
-			{
-				key: "refresh_token",
-				value: "",
-				type: "string"
-			}
 		]
 	}
 }

@@ -45,7 +45,7 @@ const funcs = {
 	resp,
 	log,
 	not_found,
-	database: require('./db'),
+	db_url: process.env.db_url || 'mongodb://localhost:27017/bookStore',
 	err
 };
 module.exports = funcs;
