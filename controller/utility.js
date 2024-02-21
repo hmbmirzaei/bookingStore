@@ -27,17 +27,17 @@ const not_found = (r, s) => {
 	console.log(`not found: ${r.baseUrl}`)
 	s.status(404).json('not found');
 };
-
+const log = (r, s, n) => {
+	let { baseUrl, headers, method } = r;
+	console.log(`${today()}, ${now()}, ${method}, ${baseUrl}, ${headers.token}`);
+	console.log(headers['x-forwarded-for'] || r.socket.remoteAddress);
+	n();
+}
 const funcs = {
 	today,
 	now,
 	resp,
-	log: (r, s, n) => {
-		let { baseUrl, headers, method } = r;
-		console.log(`${today()}, ${now()}, ${method}, ${baseUrl}, ${headers.token}`);
-		console.log(headers['x-forwarded-for'] || r.socket.remoteAddress);
-		n();
-	},
+	log,
 	not_found,
 };
 module.exports = funcs;

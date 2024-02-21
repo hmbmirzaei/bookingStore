@@ -8,14 +8,14 @@
 *Develop a Node.js service for library management using MongoDB as the database.*
 1. [ ] Implement CRUD operations for managing books and users.
 2. [ ] Utilize MongoDB's aggregation framework for reports.
-3. [ ] Ensure proper error handling and validation.
-4. [ ] Use Express.js for HTTP requests.
+3. [x] Ensure proper error handling and validation.
+4. [x] Use Express.js for HTTP requests.
 
-### [ ] Security Measures:
+### [x] Security Measures:
 *Propose security measures for sensitive data protection.*
-1. [ ] Implement authentication and authorization using JSON Web Tokens (JWT).
-2. [ ] Ensure secure storage of sensitive data.
-3. [ ] Guard against security threats like injection attacks and XSS.
+1. [x] Implement authentication and authorization using JSON Web Tokens (JWT).
+2. [x] Ensure secure storage of sensitive data.
+3. [x] Guard against security threats like injection attacks and XSS.
 
 ### [ ] Scalability and Performance:
 *Discuss strategies for scaling the library management service.*

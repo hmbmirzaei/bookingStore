@@ -1,4 +1,5 @@
-const { auth } = require('../route_controller')
+const { auth } = require('../route_controller');
+const { check } = auth;
 const api_packs = {
 	auth: [
 		{
@@ -6,7 +7,7 @@ const api_packs = {
 			method: 'post',
 			path: 'login',
 			description: 'login page html',
-			controller: auth.login,
+			controller: [auth.login],
 			mode: 'raw',
 			body: {
 				username: 'test',
