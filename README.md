@@ -2,9 +2,7 @@
 
 # CRUD Test project for Booking
 
-postman doc:
-
-http://serever_url/postman
+postman doc: http://serever_url/postman
 
 ## project descr:
 
@@ -29,8 +27,8 @@ http://serever_url/postman
 
 ### [ ] Database Design (MongoDB):
 *Design MongoDB schema for storing book and user information.*
-1. [ ] Define collections and document structures for books.
-2. [ ] Define collections and document structures for users. 
+1. [x] Define collections and document structures for books.
+2. [x] Define collections and document structures for users. 
 3. [ ] Optimize schema for efficient querying and updating operations. 
 
 ### [ ] Deployment on Ubuntu Server:
@@ -41,15 +39,16 @@ http://serever_url/postman
 
 ### [ ] API Documentation with Swagger:
 *Create comprehensive API documentation using Swagger.*
-1. [ ] Generate Swagger documentation for all API endpoints.
+Used Postman insted
+1. [x] Generate Postman documentation for all API endpoints.
 2. [ ] Include request/response formats, authentication requirements, and examples.
-3. [ ] Ensure well-formatted and understandable documentation.
+3. [x] Ensure well-formatted and understandable documentation.
 
 ### [ ] Version Control and GitHub:
 *Commit code regularly to the provided GitHub repository.*
 1. [ ] Use the provided GitHub repository for version control.
-2. [ ] Make regular commits with meaningful messages.
-3. [ ] Organize codebase with clear folder structures and documentation
+2. [x] Make regular commits with meaningful messages.
+3. [x] Organize codebase with clear folder structures and documentation
 
 ## Project folder structure:
 
