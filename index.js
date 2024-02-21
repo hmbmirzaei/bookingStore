@@ -6,7 +6,8 @@ const app = express();
 app.use(json());
 app.use('/*', log);
 // ------ router ------
-
+const router = require('./router');
+app.use(router);
 // ------ router ------
 app.use('/*', not_found);
 const port = process.env.port || 8000;
