@@ -9,7 +9,6 @@ const { User } = require('../model');
 
 const funcs = {
 	login: async ({ username, password }) => {
-		await mongoose.connect(db_url);
 		const person = await User.find({
 			username,
 			password: `${md5(password)}${salt}`

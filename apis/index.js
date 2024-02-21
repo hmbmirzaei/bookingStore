@@ -1,5 +1,6 @@
 const auth = require('../route_controller/auth');
-const book = require('../route_controller/book')
+const book = require('../route_controller/book');
+const db = require('../middle_ware/db')
 const { check } = auth;
 const api_list = {
 	auth: [
@@ -8,7 +9,7 @@ const api_list = {
 			method: 'post',
 			path: 'login',
 			description: 'login',
-			controller: [auth.login],
+			controller: [db.connect, auth.login, db.diconnect],
 			mode: 'raw',
 			header: false,
 			body: {
@@ -24,12 +25,26 @@ const api_list = {
 			method: 'get',
 			path: 'books',
 			header: true,
-			description: 'earch for books',
-			controller: [check, book.search],
+			description: 'search for books',
+			controller: [check, db.connect, book.search, db.diconnect],
 			query: [
 				{
 					key: 'search',
 					value: 'استاد'
+				},
+			],
+		},
+		{
+			name: 'get book',
+			method: 'get',
+			path: 'item',
+			header: true,
+			description: 'get book',
+			controller: [check, book.book],
+			params: [
+				{
+					key: 'id',
+					value: '65d620387059385895c1f9ae'
 				},
 			],
 		}

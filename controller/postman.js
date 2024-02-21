@@ -1,4 +1,4 @@
-const { port, postman_base_url } = process.env
+const { port, base_url } = process.env
 const my_header = [
 	{
 		key: "token",
@@ -6,7 +6,7 @@ const my_header = [
 	}
 ];
 
-const baseurl = `${postman_base_url}:${port}`;
+const baseurl = `${base_url}:${port}`;
 const protocol = 'http';
 const apis_collection = require('../apis');
 module.exports = () => {

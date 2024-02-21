@@ -2,7 +2,7 @@ const { login, check } = require('../controller/auth');
 const { resp, err } = require('../controller/utility');
 
 const funcs = {
-	login: (r, s) => resp(login(r.body), s),
+	login: async (r, s) => resp(login(r.body), s),
 	check: async (r, s, n) => {
 		try {
 			if (!r.headers.token)
