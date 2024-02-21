@@ -2,6 +2,10 @@
 
 # CRUD Test project for Booking
 
+postman doc:
+
+http://serever_url/postman
+
 ## project descr:
 
 ### [ ] Coding Challenge (Node.js & MongoDB)
