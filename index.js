@@ -33,13 +33,4 @@ app.listen(port, _ => {
     console.log(`http://localhost:${port}/postman`);
 });
 
-process
-    .on('unhandledRejection', (reason, p) => {
-        console.error(reason, 'Unhandled Rejection at Promise', p);
-    })
-    .on('uncaughtException', err => {
-        console.error(err, 'Uncaught Exception thrown');
-        process.exit(1);
-    })
-
 
