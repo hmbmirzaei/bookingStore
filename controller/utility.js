@@ -17,7 +17,7 @@ const resp = async (func, s) => {
 	try {
 		s.json(await func)
 	} catch (error) {
-		// console.log(error);
+		console.log(error);
 		console.log(`${error}`);
 		let { status, msg } = error;
 		s.status(status || 400).json(msg || 'خطا');
@@ -32,12 +32,20 @@ const log = (r, s, n) => {
 	console.log(`${today()}, ${now()}, ${method}, ${baseUrl}, ${headers.token}`);
 	console.log(headers['x-forwarded-for'] || r.socket.remoteAddress);
 	n();
-}
+};
+const err = (msg, status) => {
+	let e = new Error(msg);
+	e.msg = msg || null;
+	e.status = status || 400;
+	throw e
+};
 const funcs = {
 	today,
 	now,
 	resp,
 	log,
 	not_found,
+	database: require('./db'),
+	err
 };
 module.exports = funcs;

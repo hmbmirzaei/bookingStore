@@ -1,4 +1,3 @@
-
 const express = require('express');
 const {config} = require('dotenv');
 config();
@@ -22,4 +21,4 @@ app.use('/*', not_found);
 const port = process.env.port || 8000;
 app.listen(port, _ => {
     console.log(`listening on port: ${port}`);
-})
+});

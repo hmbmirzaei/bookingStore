@@ -2,7 +2,8 @@ const jwt = require('jsonwebtoken');
 const md5 = require('md5');
 const { v4 } = require('uuid');
 const { salt, secret_key, token_expire } = process.env;
-const { err } = require('./utility');
+const { err, database } = require('./utility');
+database.co
 const redis = require('./redis');
 // console.log({ salt, secret_key, d: md5('tester') })
 const users = [{
@@ -23,11 +24,10 @@ const funcs = {
 
 		const { id, fname, lname } = person;
 		//check previous login
-		let old_login = await redis.r(`${id}`);
-		if (old_login) {
-			const old__login = JSON.parse(old_login);
-			await redis.d(old__login.token);
-			await redis.d(id);
+		let old_token = await redis.r(`${id}`);
+		if (old_token) {
+			await redis.d(old_token);
+			await redis.d(`${id}`);
 		};
 		// check previous login
 

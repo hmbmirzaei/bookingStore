@@ -1,12 +1,12 @@
-const { auth } = require('../route_controller');
+const auth = require('../route_controller/auth');
 const { check } = auth;
-const api_packs = {
+const api_list = {
 	auth: [
 		{
-			name: 'login page',
+			name: 'login',
 			method: 'post',
 			path: 'login',
-			description: 'login page html',
+			description: 'login',
 			controller: [auth.login],
 			mode: 'raw',
 			body: {
@@ -16,4 +16,4 @@ const api_packs = {
 		}
 	],
 };
-module.exports = api_packs;
+module.exports = api_list;
