@@ -14,4 +14,4 @@ const funcs = {
 		};
 	}
 }
-module.exports = funcs
+module.exports = funcs;
