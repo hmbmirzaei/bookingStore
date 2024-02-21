@@ -1,5 +1,6 @@
 const funcs = {
+	auth: require('./auth'),
 	utility: require('./utility'),
-	test: require('./test')
+	redis: require('./redis')
 }
 module.exports = funcs;

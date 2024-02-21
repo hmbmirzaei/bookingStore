@@ -50,7 +50,10 @@
 ## Project foder structure:
 
 ```
-project  
-└───model
-└───controller
+project
+└─── apis
+└─── controller
+└─── model
+└─── route_controller
+└─── router
 ```

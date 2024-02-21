@@ -17,26 +17,27 @@ const resp = async (func, s) => {
 	try {
 		s.json(await func)
 	} catch (error) {
-		log(`${error}`);
+		// console.log(error);
+		console.log(`${error}`);
 		let { status, msg } = error;
 		s.status(status || 400).json(msg || 'خطا');
 	}
 }
-const log = (r, s, n) => {
-	let { baseUrl, headers, method } = r;
-	console.log(`${today()}, ${now()}, ${method}, ${baseUrl}, ${headers.token}`);
-	console.log(r.headers['x-forwarded-for'] || r.socket.remoteAddress);
-	n();
-};
 const not_found = (r, s) => {
 	console.log(`not found: ${r.baseUrl}`)
 	s.status(404).json('not found');
-}
+};
+
 const funcs = {
 	today,
 	now,
 	resp,
-	log,
+	log: (r, s, n) => {
+		let { baseUrl, headers, method } = r;
+		console.log(`${today()}, ${now()}, ${method}, ${baseUrl}, ${headers.token}`);
+		console.log(headers['x-forwarded-for'] || r.socket.remoteAddress);
+		n();
+	},
 	not_found,
 };
 module.exports = funcs;

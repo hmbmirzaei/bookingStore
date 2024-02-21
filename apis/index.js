@@ -1,12 +1,17 @@
-const { test } = require('../route_controller')
+const { auth } = require('../route_controller')
 const api_packs = {
-	test: [
+	auth: [
 		{
 			name: 'login page',
-			method: 'get',
-			path: 'zz',
+			method: 'post',
+			path: 'login',
 			description: 'login page html',
-			controller: test.tester
+			controller: auth.login,
+			mode: 'raw',
+			body: {
+				username: 'test',
+				password: 'tester'
+			}
 		}
 	],
 };

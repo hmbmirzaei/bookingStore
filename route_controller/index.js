@@ -1,4 +1,4 @@
 const funcs = {
-	test: require('./test')
+	auth: require('./auth'),
 }
 module.exports = funcs;
