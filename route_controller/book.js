@@ -5,7 +5,7 @@ const funcs = {
 	c: async (r, s) => resp(book.c(r.body), s),
 	r: async (r, s) => resp(book.r(r.params.book_id), s),
 	u: async (r, s) => resp(book.u({
-		id: r.params.id,
+		book_id: r.params.book_id,
 		name: r.body.name,
 		descr: r.body.descr,
 		initial_stock: r.body.initial_stock

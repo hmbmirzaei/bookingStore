@@ -8,6 +8,7 @@ const b = async id => {
 }
 const funcs = {
 	search: async search => {
+		search = search ? search.trim() : '';
 		const books = await Book.find({
 			$or: [
 				{ name: { $regex: search, $options: 'i' } },
@@ -37,7 +38,7 @@ const funcs = {
 	r: async id => {
 		const book = await b(id);
 		const histories = await History.find({
-			book_id: ObjectId(id)
+			book_id: id
 		});
 		return {
 			_id: book.id,
@@ -55,8 +56,9 @@ const funcs = {
 			})
 		}
 	},
-	u: async ({ id, name, descr, initial_stock }) => {
-		const book = await b(id);
+	u: async ({ book_id, name, descr, initial_stock }) => {
+		console.log({ book_id, name, descr, initial_stock })
+		const book = await b(book_id);
 		if (name !== book.name) {
 			let another_book = await Book.exists({
 				name
@@ -67,7 +69,7 @@ const funcs = {
 
 
 		const histories = await History.find({
-			book_id: ObjectId(book.id)
+			book_id
 		});
 		if (histories.length)
 			err('book borroewd and can not edit');
@@ -76,20 +78,21 @@ const funcs = {
 		book.stock = initial_stock;
 		book.initial_stock = initial_stock;
 		await book.save();
-		return id;
+		return book_id;
 	},
-	d: async id => {
-		const book = await b(id);
+	d: async book_id => {
+		const book = await b(book_id);
 		const histories = await History.find({
-			book_id: ObjectId(book.id)
+			book_id
 		});
 		if (histories.length)
 			err('book borroewd and can not deleted');
-		await book.remove();
+		console.log(book)
+		await book.deleteOne();
 		return 'done'
 	},
-	borrowed: async (id, member_id) => {
-		const book = await b(id);
+	borrowed: async (book_id, member_id) => {
+		const book = await b(book_id);
 		if (book.stock <= 0)
 			err('out of stock');
 		const member = await Member.findById(member_id);
@@ -101,17 +104,18 @@ const funcs = {
 
 		book.stock -= 1;
 		const history = new History({
-			member_id: member.id,
+			member_id,
 			member_name: member.name,
-			book_id: book.id,
+			book_id,
 			book_name: book.name,
 			borrow_date: new Date()
 		});
 		await book.save();
 		await history.save();
+		return { book: book.name, member: member.name }
 	},
-	returned: async (id, member_id) => {
-		const book = await b(id);
+	returned: async (book_id, member_id) => {
+		const book = await b(book_id);
 		if (!book.stock)
 			err('out of stock');
 		const member = await Member.findById(member_id);
@@ -119,14 +123,15 @@ const funcs = {
 			err('member not exists');
 
 		const history = await History.findOne({
-			member: member_id,
-			book: id,
+			member_id,
+			book_id,
 			return_date: null
 		});
 		history.return_date = new Date();
 		book.stock += 1;
 		await book.save();
 		await history.save();
+		return { book: book.name, member: member.name }
 	},
 	history: async id => {
 		const book = await b(id);
@@ -147,7 +152,7 @@ const funcs = {
 				book_id,
 				book_name,
 				borrow_date,
-				return_date
+				return_date: return_date ? return_date : null
 			}
 		})
 	}

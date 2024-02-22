@@ -3,17 +3,17 @@ const { err } = require('./utility');
 const m = async id => {
 	const member = await Member.findById(id);
 	if (!member)
-		err('book not found');
+		err('member not found');
 	return member;
 }
 const funcs = {
 	search: async search => {
-		const members = await Book.find({ name: { $regex: search, $options: 'i' } });
+		const members = await Member.find({ name: { $regex: search ? search : '', $options: 'i' } });
 		return members.map(({ id, name, expire }) => {
 			return { id, name, expire }
 		});
 	},
-	c: async name => {
+	c: async ({ name }) => {
 		let member = await Member.exists({
 			name
 		});
@@ -26,10 +26,10 @@ const funcs = {
 		await member.save();
 		return member.id;
 	},
-	r: async id => {
-		const member = await m(id);
+	r: async member_id => {
+		const member = await m(member_id);
 		const histories = await History.find({
-			member_id: ObjectId(id)
+			member_id
 		});
 		return {
 			_id: member.id,
@@ -44,8 +44,8 @@ const funcs = {
 			})
 		}
 	},
-	u: async ({ id, name }) => {
-		const member = await m(id);
+	u: async ({ member_id, name }) => {
+		const member = await m(member_id);
 		if (member.expire)
 			err('member expired');
 		if (name != member.name) {
@@ -57,16 +57,16 @@ const funcs = {
 		}
 		member.name = name;
 		await member.save();
-		return id;
+		return member_id;
 	},
-	d: async id => {
-		const member = await m(id);
+	d: async member_id => {
+		const member = await m(member_id);
 		const histories = await History.find({
-			member_id: ObjectId(member.id)
+			member_id
 		});
 		if (histories.length)
 			err('book borroewd and can not deleted');
-		await member.remove();
+		await member.deleteOne();
 		return 'done'
 	},
 	history: async id => {
@@ -88,7 +88,7 @@ const funcs = {
 				book_id,
 				book_name,
 				borrow_date,
-				return_date
+				return_date: return_date ? return_date : null
 			}
 		})
 	},

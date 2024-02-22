@@ -67,11 +67,11 @@ const api_list = {
 			],
 		},
 		{
-			name: 'modofy book',
+			name: 'modify book',
 			method: 'put',
-			path: 'modofy',
+			path: 'modify',
 			header: true,
-			description: 'modofy book',
+			description: 'modify book',
 			controller: [check, book_mw.upsert, db.connect, book.u, db.diconnect],
 			body: {
 				name: 'زندگی‌نامه',
@@ -244,7 +244,7 @@ const api_list = {
 			path: 'expire',
 			header: true,
 			description: 'expire member',
-			controller: [check, member_mw.create, db.connect, member.expire, db.diconnect],
+			controller: [check, db.connect, member.expire, db.diconnect],
 			body: {
 				expire: '2025-01-01',
 			},
@@ -258,7 +258,7 @@ const api_list = {
 		},
 	],
 	history: [
-		
+
 	]
 };
 module.exports = api_list;
