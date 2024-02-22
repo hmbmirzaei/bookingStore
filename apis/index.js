@@ -256,9 +256,6 @@ const api_list = {
 				},
 			],
 		},
-	],
-	history: [
-
 	]
 };
 module.exports = api_list;
