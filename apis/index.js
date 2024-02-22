@@ -1,7 +1,9 @@
 const auth = require('../route_controller/auth');
 const book = require('../route_controller/book');
+const member = require('../route_controller/member');
 const db = require('../middle_ware/db');
 const book_mw = require('../middle_ware/book');
+const member_mw = require('../middle_ware/member');
 
 const { check } = auth;
 const api_list = {
@@ -23,7 +25,7 @@ const api_list = {
 	],
 	book: [
 		{
-			name: 'search for books',
+			name: 'search',
 			method: 'get',
 			path: 'books',
 			header: true,
@@ -53,7 +55,7 @@ const api_list = {
 		{
 			name: 'get book',
 			method: 'get',
-			path: 'item',
+			path: 'read',
 			header: true,
 			description: 'get book',
 			controller: [check, db.connect, book.r, db.diconnect],
@@ -87,7 +89,7 @@ const api_list = {
 		{
 			name: 'remove book',
 			method: 'delete',
-			path: 'item',
+			path: 'remove',
 			header: true,
 			description: 'remove book',
 			controller: [check, db.connect, book.d, db.diconnect],
@@ -148,6 +150,115 @@ const api_list = {
 				},
 			],
 		},
+	],
+	member: [
+		{
+			name: 'search',
+			method: 'get',
+			path: 'members',
+			header: true,
+			description: 'search for members',
+			controller: [check, db.connect, member.search, db.diconnect],
+			query: [
+				{
+					key: 'search',
+					value: 'رضا'
+				},
+			],
+		},
+		{
+			name: 'new member',
+			method: 'post',
+			path: 'create',
+			header: true,
+			description: 'new member',
+			controller: [check, member_mw.create, db.connect, member.c, db.diconnect],
+			body: {
+				name: 'رضا',
+			},
+			mode: 'raw'
+		},
+		{
+			name: 'get member',
+			method: 'get',
+			path: 'read',
+			header: true,
+			description: 'get member',
+			controller: [check, db.connect, member.r, db.diconnect],
+			params: [
+				{
+					key: 'member_id',
+					value: '65d620387059385895c1f9ae'
+				},
+			],
+		},
+		{
+			name: 'modify member',
+			method: 'put',
+			path: 'modify',
+			header: true,
+			description: 'modify member',
+			controller: [check, member_mw.create, db.connect, member.u, db.diconnect],
+			body: {
+				name: 'امیررضا',
+			},
+			mode: 'raw',
+			params: [
+				{
+					key: 'member_id',
+					value: '65d620387059385895c1f9ae'
+				},
+			],
+		},
+		{
+			name: 'remove member',
+			method: 'delete',
+			path: 'remove',
+			header: true,
+			description: 'remove member',
+			controller: [check, db.connect, member.d, db.diconnect],
+			params: [
+				{
+					key: 'member_id',
+					value: '65d620387059385895c1f9ae'
+				},
+			],
+		},
+		{
+			name: 'history',
+			method: 'get',
+			path: 'return',
+			header: true,
+			description: 'history',
+			controller: [check, db.connect, member.history, db.diconnect],
+			params: [
+				{
+					key: 'member_id',
+					value: '65d620387059385895c1f9ae'
+				},
+			],
+		},
+		{
+			name: 'expire member',
+			method: 'put',
+			path: 'expire',
+			header: true,
+			description: 'expire member',
+			controller: [check, member_mw.create, db.connect, member.expire, db.diconnect],
+			body: {
+				expire: '2025-01-01',
+			},
+			mode: 'raw',
+			params: [
+				{
+					key: 'member_id',
+					value: '65d620387059385895c1f9ae'
+				},
+			],
+		},
+	],
+	history: [
+		
 	]
 };
 module.exports = api_list;

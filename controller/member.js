@@ -44,7 +44,7 @@ const funcs = {
 			})
 		}
 	},
-	u: async ({ id, name, expire }) => {
+	u: async ({ id, name }) => {
 		const member = await m(id);
 		if (member.expire)
 			err('member expired');
@@ -56,7 +56,6 @@ const funcs = {
 				err(`${name} already exists`);
 		}
 		member.name = name;
-		member.expire = expire;
 		await member.save();
 		return id;
 	},
@@ -71,12 +70,26 @@ const funcs = {
 		return 'done'
 	},
 	history: async id => {
-		const member = await m(id);
+		await m(id);
 		const histories = await History.find({
 			member_id: id
 		});
-		return histories.map(({ book_id, borrow_date, return_date }) => {
-			return { book_id, borrow_date, return_date }
+		return histories.sort((a, b) => a.borrow_date - b.borrow_date).map(({
+			member_id,
+			member_name,
+			book_id,
+			book_name,
+			borrow_date,
+			return_date
+		}) => {
+			return {
+				member_id,
+				member_name,
+				book_id,
+				book_name,
+				borrow_date,
+				return_date
+			}
 		})
 	},
 	expire: async (id, expire) => {
