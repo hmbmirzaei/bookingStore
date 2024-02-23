@@ -57,13 +57,16 @@ postman doc: http://serever_url/postman
 
 2. [x] Configure Nginx as a reverse proxy.
     *nginx server block
-    /etc/nginx/sites-available/bookingStore 
+
+    ```
+    sudo nano /etc/nginx/sites-available/<DOMAIN>
+    ```
 
     ```
     server {
         listen 80;
         root /home/<USER>/bookingStore;
-        server_name bookingStore.testdomain.id;
+        server_name <DOMAIN>;
         location / {
             proxy_pass  http://localhost:8000;
             proxy_set_header Host $host;
@@ -71,11 +74,51 @@ postman doc: http://serever_url/postman
         }
     }
     ```
+
     ```
     sudo nginx -t
+    sudo ln -s /etc/nginx/sites-available/<DOMAIN> /etc/nginx/sites-enabled
     nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
     nginx: configuration file /etc/nginx/nginx.conf test is successful
     ```
+    
+    ```
+    *optional: ssl
+
+    sudo apt-get update
+    sudo apt-get install certbot
+
+    sudo apt-get install python3-certbot-nginx
+    sudo nginx -t && sudo nginx -s reload
+    sudo certbot --nginx -d <DOMAIN>
+    ```
+
+    ```
+    What would you like to do?
+    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    1: Attempt to reinstall this existing certificate
+    2: Renew & replace the cert (limit ~5 per 7 days)
+    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    Select the appropriate number [1-2] then [enter] (press 'c' to cancel): 2
+    ```
+
+    ```
+    Please choose whether or not to redirect HTTP traffic to HTTPS, removing HTTP access.
+    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    1: No redirect - Make no further changes to the webserver configuration.
+    2: Redirect - Make all requests redirect to secure HTTPS access. Choose this for
+    new sites, or if you're confident your site works on HTTPS. You can undo this
+    change by editing your web server's configuration.
+    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    Select the appropriate number [1-2] then [enter] (press 'c' to cancel):  2
+    ```
+
+    ```
+    crontab -e
+    0 12 * * * /usr/bin/certbot renew --quiet
+    sudo ufw allow 443
+    ```
+
 
 3. [x] Document the deployment process with configurations.
     ```
